@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "client": "cd frontend && npm start",
+    "server": "cd backend && node index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
