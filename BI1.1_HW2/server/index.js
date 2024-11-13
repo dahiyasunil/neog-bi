@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { initializeDatabase } = require("./db/db.connect");
 const Hotel = require("./models/hotel.models");
 require("dotenv").config();
@@ -33,7 +34,7 @@ app.get("/hotels", async (req, res) => {
   try {
     const allHotels = await readAllHotels();
     if (allHotels.length != 0) {
-      res.json(allHotels);
+      res.status(200).json({ data: allHotels });
     } else {
       res.status(204).json({ msg: "No Hotels in database." });
     }
@@ -59,7 +60,7 @@ app.get("/hotels/:hotelName", async (req, res) => {
   try {
     const hotel = await readHotelByName(req.params.hotelName);
     if (hotel) {
-      res.json(hotel);
+      res.status(200).json({ data: hotel });
     } else {
       res.status(204).json({ msg: "No hotel found." });
     }
