@@ -17,6 +17,46 @@ app.use(express.json());
 
 app.use(cors(corsOptions));
 
+// * Create new book
+const createNewBook = async (bookData) => {
+  try {
+    const newBook = new Book(bookData);
+    return await newBook.save();
+  } catch (err) {
+    throw err;
+  }
+};
+
+app.post("/books", async (req, res) => {
+  try {
+    const newBookData = req.body;
+
+    if (
+      !newBookData.title ||
+      !newBookData.author ||
+      !newBookData.publishedYear ||
+      !newBookData.language
+    ) {
+      res.status(404).json({
+        msg: `title, author, publishedYear and language are required!`,
+      });
+    } else {
+      const newBook = await createNewBook(newBookData);
+      if (newBook) {
+        res.status(201).json({ msg: `Book added successfully!` });
+      } else {
+        throw new Error(
+          `An error occured while trying to save book in database.`
+        );
+      }
+    }
+  } catch (err) {
+    res.status(500).json({ msg: "Failed to add book!" });
+    console.log(`Failed to add book in database.
+      ${err}`);
+  }
+});
+
 // * Read all books
 const readAllBooks = async () => {
   try {

@@ -12,7 +12,6 @@ const useFetch = (url, initialData) => {
     fetch(url)
       .then(async (response) => {
         if (!response.ok) {
-          console.log(`Response is not ok!`);
           const errorData = await response.json();
           if (response.status === 500 || response.status === 204) {
             setError(errorData.msg || "An error occurred.");
@@ -24,11 +23,9 @@ const useFetch = (url, initialData) => {
       })
       .then((responseData) => {
         setData(responseData);
-        console.log(`Response Data ${JSON.stringify(responseData)}`);
         setError(null);
       })
       .catch((error) => {
-        console.log(`Inside catch block of useFetch.`);
         setError(error.message);
       })
       .finally(() => setLoading(false));
