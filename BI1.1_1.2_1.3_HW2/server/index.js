@@ -17,6 +17,44 @@ app.use(express.json());
 
 app.use(cors(corsOption));
 
+// * Create new hotel
+async function createHotel(hotelData) {
+  try {
+    const newHotel = new Hotel(hotelData);
+    return await newHotel.save();
+  } catch (err) {
+    throw new Error(`Failed to save hotel: ${err.message}`);
+  }
+}
+
+app.post("/hotels", async (req, res) => {
+  try {
+    const newHotelData = req.body;
+
+    if (
+      !newHotelData.name ||
+      !newHotelData.category ||
+      !newHotelData.location ||
+      !newHotelData.phoneNumber ||
+      !newHotelData.checkInTime ||
+      !newHotelData.checkOutTime
+    ) {
+      return res.status(400).json({
+        msg: `name, category, location, phoneNumber, checkInTime and checkOutTime are required!`,
+      });
+    } else {
+      const hotel = await createHotel(newHotelData);
+      if (hotel) {
+        res.status(201).json({ msg: `Hotel added successfully!` });
+      }
+    }
+  } catch (err) {
+    res.status(500).json({ msg: `Failed to add hotel!` });
+    console.log(`Failed to add hotel in database.
+      ${err.message}`);
+  }
+});
+
 // * Read all hotels from the database
 async function readAllHotels() {
   try {
