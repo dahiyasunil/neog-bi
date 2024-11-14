@@ -36,11 +36,10 @@ app.post("/movies", async (req, res) => {
       !movieData.title ||
       !movieData.releaseYear ||
       !movieData.director ||
-      !movieData.language ||
-      !movieData.country
+      !movieData.language
     ) {
       res.status(404).json({
-        msg: `title,releaseYear,director,langiage and country are required!`,
+        msg: `title,releaseYear,director and language are required!`,
       });
     } else {
       const movie = await addNewMovie(movieData);
