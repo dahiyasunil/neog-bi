@@ -32,7 +32,6 @@ const NewBook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form data:\n", formData);
 
     try {
       setLoading(true);
