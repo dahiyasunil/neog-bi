@@ -7,7 +7,7 @@ const MovieByTitle = ({ title }) => {
   );
 
   return (
-    <section className="container text-center py-4">
+    <section className="container py-4">
       {data ? (
         <div>
           <h2>{data.title}</h2>
