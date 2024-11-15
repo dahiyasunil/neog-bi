@@ -132,6 +132,33 @@ app.get("/books/authors/:authorName", async (req, res) => {
   }
 });
 
+// * Delete book by Id
+const deleteBookById = async (bookId) => {
+  try {
+    return await Book.findByIdAndDelete(bookId);
+  } catch (err) {
+    throw new Error(
+      `An error occured while trying to delete book. ${err.message}`
+    );
+  }
+};
+
+app.delete("/books/delete/id/:id", async (req, res) => {
+  const bookId = req.params.id;
+  try {
+    const deletedBook = await deleteBookById(bookId);
+    if (deletedBook) {
+      res.status(200).json({ msg: `Book deleted successfully!` });
+    } else {
+      res.status(404).json({ msg: `No book found!` });
+    }
+  } catch (err) {
+    res.status(500).json({ msg: `Failed to delete the book.` });
+    console.error(`Failed to delete the book by id ${bookId}.
+      Error: ${err.message}`);
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {

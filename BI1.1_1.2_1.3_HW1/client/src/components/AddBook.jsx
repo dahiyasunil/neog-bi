@@ -50,6 +50,7 @@ const NewBook = () => {
         setSuccess(false);
         const error = await response.json();
         setError(error.msg || `Something went wrong. Please try again later!`);
+        return;
       }
 
       const data = await response.json();
@@ -70,7 +71,7 @@ const NewBook = () => {
   return (
     <section>
       <h2>Add new Book</h2>
-      <form on onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title: </label>
         <br />
         <input
@@ -180,7 +181,7 @@ const NewBook = () => {
         ) : (
           loading && <p>saving book...</p>
         )}
-        {error && { error }}
+        {error && <p>{error}</p>}
       </div>
     </section>
   );
