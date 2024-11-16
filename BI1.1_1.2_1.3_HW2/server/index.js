@@ -107,6 +107,33 @@ app.get("/hotels/:hotelName", async (req, res) => {
   }
 });
 
+// * Delete hotel by ID
+async function deleteHotelByID(hotelId) {
+  try {
+    return await Hotel.findByIdAndDelete(hotelId);
+  } catch (err) {
+    throw new Error(
+      `An error occured while trying to delete Hotel. ${err.message}`
+    );
+  }
+}
+
+app.delete("/hotels/delete/id/:id", async (req, res) => {
+  const hotelId = req.params.id;
+  try {
+    const deletedHotel = await deleteHotelByID(hotelId);
+    if (deletedHotel) {
+      res.status(200).json({ msg: `Hotel deleted successfully!` });
+    } else {
+      res.status(404).json({ msg: `No hotel found.` });
+    }
+  } catch (err) {
+    res.status(500).json({ msg: `Failed to delete the Hotel.` });
+    console.error(`Failed to delete the Hotel by id ${hotelId}.
+      Error: ${err.message}`);
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
